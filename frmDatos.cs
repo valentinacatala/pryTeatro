@@ -16,5 +16,31 @@ namespace pryTeatro
         {
             InitializeComponent();
         }
+        
+        public string FuncionSeleccionada { get; set; }
+        public DateTime FechaSeleccionada { get; set; }
+        public List<string> AsientosSeleccionados { get; set; }
+
+        private void frmDatos_Load(object sender, EventArgs e)
+        {
+            
+            SetInfo(FuncionSeleccionada, FechaSeleccionada);
+            SetAsientos(AsientosSeleccionados);
+        }
+
+        public void SetInfo(string funcion, DateTime fecha)
+        {
+            lblFuncion.Text = funcion;
+            lblFecha.Text = fecha.ToShortDateString();
+        }
+
+        public void SetAsientos(List<string> asientos)
+        {
+            lstAsientos.Items.Clear();
+            foreach (string asiento in asientos)
+            {
+                lstAsientos.Items.Add(asiento);
+            }
+        }
     }
 }

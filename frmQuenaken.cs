@@ -22,6 +22,9 @@ namespace pryTeatro
             ConfigurarAsientos(tblAsientosVerde, Color.Green, Color.LightGreen);
         }
 
+        private string funcionSeleccionada;
+        private DateTime fechaSeleccionada;
+        private List<string> asientosSeleccionados = new List<string>();
         private void frmQuenaken_Load(object sender, EventArgs e)
         {
 
@@ -30,6 +33,11 @@ namespace pryTeatro
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
             frmDatos frmDatos = new frmDatos();
+
+            frmDatos.FuncionSeleccionada = comboBox1.SelectedItem?.ToString();
+            frmDatos.FechaSeleccionada = dateTimePicker1.Value;
+            frmDatos.AsientosSeleccionados = asientosSeleccionados;
+
             frmDatos.Show();
         }
 
@@ -42,13 +50,12 @@ namespace pryTeatro
         {
             tableLayoutPanel.BackColor = panelColor;
 
-            // Configurar las columnas y filas
             tableLayoutPanel.ColumnCount = 5;
             tableLayoutPanel.RowCount = 4;
 
-            // Limpiar estilos previos
             tableLayoutPanel.ColumnStyles.Clear();
             tableLayoutPanel.RowStyles.Clear();
+
             for (int i = 0; i < tableLayoutPanel.ColumnCount; i++)
             {
                 tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
@@ -78,13 +85,18 @@ namespace pryTeatro
 
         private void AsientoPanel_Click(object sender, EventArgs e)
         {
+            //Seleccionar el asiento y pintarlo de otro color
             Panel clickedPanel = sender as Panel;
-            MessageBox.Show("Has seleccionado el asiento: " + clickedPanel.Tag.ToString());
-
-            // Cambiar el color del asiento para mostrar que está seleccionado
-            clickedPanel.BackColor = Color.White;
+            if (clickedPanel.BackColor != Color.White && clickedPanel.Enabled)
+            {
+                clickedPanel.BackColor = Color.White;
+                asientosSeleccionados.Add(clickedPanel.Tag.ToString());
+            }
+            else if (clickedPanel.BackColor == Color.White)
+            {
+                clickedPanel.BackColor = Color.Blue;
+                asientosSeleccionados.Remove(clickedPanel.Tag.ToString());
+            }
         }
-
-       
     }
 }
